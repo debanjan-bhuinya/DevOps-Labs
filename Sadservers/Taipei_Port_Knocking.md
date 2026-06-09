@@ -18,3 +18,16 @@ nmap -p- localhost
 
 # Verify the web server has been unlocked
 curl localhost
+
+### Approach 2: Programmatic Brute Force Loop
+If explicit scanning tools are unavailable, a standard shell loop can sequentially ping ports using the system's `knock` utility while validating the state of the grading script.
+
+```bash
+for port in {1..9000}; do
+  knock localhost $port
+  if [ "$(./check.sh)" = "OK" ]; then
+    echo "Success! The secret port is $port"
+    curl localhost
+    break
+  fi
+done
